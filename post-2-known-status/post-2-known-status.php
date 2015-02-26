@@ -18,6 +18,8 @@ If  a post comes to wp from known, it probably should not post back, how do I fi
 
 */
 
+defined( 'ABSPATH' ) or die( 'the codex told me to put this here' );
+
 
 /* Settings  */
  
