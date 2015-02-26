@@ -119,7 +119,7 @@ function post_to_known( $post_id ) {
 ); 
 	$result = curl_exec($ch);
 	/*
-		It would be grat to do something here, let the user know....
+		It would be great to do something here, let the user know....
 	*/
 }
 add_action( 'publish_post', 'post_to_known' );
