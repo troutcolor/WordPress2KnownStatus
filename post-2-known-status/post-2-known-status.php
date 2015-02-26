@@ -14,6 +14,8 @@ how do you valadate settings?
 Can posts have a note if posted to known on their edit page?
 How do we find out if it works? What to do about errors?
 
+If  a post comes to wp from known, it probably should not post back, how do I figure that out
+
 */
 
 
@@ -45,10 +47,8 @@ function post_2_known_plugin_options() {
 	?>
 	<div class="wrap">
 	<h2>Post 2 Known Settings</h2>
- <p>You can find your api key at yourknownsite/admin/apitester/</p>
-	 
-	 <p>The uri should be your-known-site/status/edit</p>
-	 
+ <p>You can find your api key at yourknownsite/admin/apitester/</p>	 
+ <p>The uri should be your-known-site/status/edit</p>	 
 	<form method="post" action="options.php">
 	<?php settings_fields( 'known-settings-group' ); ?>
 	<?php do_settings_sections( 'known-settings-group' ); ?>
@@ -56,13 +56,11 @@ function post_2_known_plugin_options() {
 	<tr valign="top">
 	<th scope="row">Known Username</th>
 	<td><input type="text" name="known_username" value="<?php echo esc_attr( get_option('known_username') ); ?>" /></td>
-	</tr>
- 
+	</tr> 
 	<tr valign="top">
 	<th scope="row">Known URl</th>
  	<td><input type="text" name="known_url" size="35" value="<?php echo esc_attr( get_option('known_url') ); ?>" /></td>
 	</tr>
-
 	<tr valign="top">
 	<th scope="row">Known API Key</th>
 	<td><input type="text" name="known_apikey" value="<?php echo esc_attr( get_option('known_apikey') ); ?>" /></td>
@@ -92,21 +90,21 @@ add_action( 'admin_menu', 'known_plugin_menu' );
 function post_to_known( $post_id ) {
 	
 	
-	$known_apikey=get_option('known_apikey');
-	$known_username=get_option('known_username');
-	$known_url=get_option('known_url');
-	$known_prefix=get_option('known_prefix');
-	$known_usepermalinks=get_option('known_usepermalinks');	
+	$known_apikey = get_option('known_apikey');
+	$known_username = get_option('known_username');
+	$known_url = get_option('known_url');
+	$known_prefix = get_option('known_prefix');
+	$known_usepermalinks = get_option('known_usepermalinks');	
 	
-	$known_signiture=base64_encode(hash_hmac("sha256", "/status/edit", $known_apikey,true));
+	$known_signiture = base64_encode(hash_hmac("sha256", "/status/edit", $known_apikey,true));
  	if ( wp_is_post_revision( $post_id ) )
 		return;
 
 	$post_title = get_the_title( $post_id );
-	 if($known_usepermalinks=='on'){$post_url = get_permalink( $post_id );
-	 }else{
-	$siteurl=site_url('/');
-	$post_url=$siteurl."?p=".$post_id;
+	 if ( $known_usepermalinks == 'on' ) {$post_url = get_permalink( $post_id );
+	 } else {
+	$siteurl = site_url('/');
+	$post_url = $siteurl."?p=".$post_id;
 	}
 	$data = array("body" => "$known_prefix $post_title  $post_url");
 	$data_string = json_encode($data);
@@ -118,7 +116,9 @@ function post_to_known( $post_id ) {
 	curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json','X-KNOWN-USERNAME:'.$known_username,'X-KNOWN-SIGNATURE:'.$known_signiture)
 ); 
 	$result = curl_exec($ch);
-	
+	/*
+		It would be grat to do something here, let the user know....
+	*/
 }
 add_action( 'publish_post', 'post_to_known' );
 ?>
