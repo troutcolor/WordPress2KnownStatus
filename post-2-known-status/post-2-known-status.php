@@ -114,7 +114,7 @@ function post_to_known( $post_id ) {
 	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST"); 
 	curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-	curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json','X-KNOWN-USERNAME:johnjohnston','X-KNOWN-SIGNATURE:'.$known_signiture)
+	curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json','X-KNOWN-USERNAME:'.$known_username,'X-KNOWN-SIGNATURE:'.$known_signiture)
 ); 
 	$result = curl_exec($ch);
 	
