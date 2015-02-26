@@ -17,7 +17,7 @@ How do we find out if it works? What to do about errors?
 */
 
 
-/* Settings - place holder */
+/* Settings  */
  
 
 
@@ -45,7 +45,10 @@ function post_2_known_plugin_options() {
 	?>
 	<div class="wrap">
 	<h2>Post 2 Known Settings</h2>
- 
+ <p>You can find your api key at yourknownsite/admin/apitester/</p>
+	 
+	 <p>The uri should be your-known-site/status/edit</p>
+	 
 	<form method="post" action="options.php">
 	<?php settings_fields( 'known-settings-group' ); ?>
 	<?php do_settings_sections( 'known-settings-group' ); ?>
@@ -73,8 +76,6 @@ function post_2_known_plugin_options() {
 	
 	</tr>
 	</table> 
-	<?php echo get_option('known_usepermalinks' );
-	?>
 
 	<?php submit_button(); ?>
  
@@ -94,7 +95,7 @@ function post_to_known( $post_id ) {
 	$known_apikey=get_option('known_apikey');
 	$known_username=get_option('known_username');
 	$known_url=get_option('known_url');
-	$know_prefix=get_option('known_prefix');
+	$known_prefix=get_option('known_prefix');
 	$known_usepermalinks=get_option('known_usepermalinks');	
 	
 	$known_signiture=base64_encode(hash_hmac("sha256", "/status/edit", $known_apikey,true));
